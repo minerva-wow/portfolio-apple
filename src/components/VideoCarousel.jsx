@@ -1,3 +1,4 @@
+// new .jsx
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -11,7 +12,7 @@ const VideoCarousel = () => {
   const videoRef = useRef([]);
   const progressRef = useRef([]);
   const progressBarRef = useRef([]);
-  
+
   const [state, setState] = useState({
     videoId: 0,
     isPlaying: false,
@@ -19,24 +20,24 @@ const VideoCarousel = () => {
     isLastVideo: false,
     loadedVideos: []
   });
-  
+
   const { videoId, isPlaying, startPlay, isLastVideo, loadedVideos } = state;
 
   const updateProgress = () => {
     const video = videoRef.current[videoId];
     const progressBar = progressRef.current[videoId];
     const progressBarContainer = progressBarRef.current[videoId];
-    
+
     if (video && progressBar && progressBarContainer && isPlaying) {
       const progress = (video.currentTime / video.duration) * 100;
-      
+
       gsap.to(progressBarContainer, {
-        width: window.innerWidth < 760 ? "10vw" : window.innerWidth < 1200 ? "10vw" : "4vw"
+        width: window.innerWidth < 760 ? "10vw" : window.innerWidth < 1200 ? "10vw" : "4vw",
       });
-      
+
       gsap.to(progressBar, {
         width: `${progress}%`,
-        backgroundColor: "white"
+        backgroundColor: "white",
       });
     }
   };
@@ -54,7 +55,7 @@ const VideoCarousel = () => {
         toggleActions: "restart none none none",
       },
       onComplete: () => {
-        setState(prev => ({...prev, startPlay: true, isPlaying: true}));
+        setState(prev => ({ ...prev, startPlay: true, isPlaying: true }));
       }
     });
   }, [videoId]);
@@ -70,11 +71,13 @@ const VideoCarousel = () => {
   const resetProgressBar = (index) => {
     if (progressRef.current[index] && progressBarRef.current[index]) {
       gsap.to(progressBarRef.current[index], {
-        width: "12px"
+        width: "12px",
+        duration: 1,
+        ease: "power2.out"
       });
       gsap.to(progressRef.current[index], {
         width: "100%",
-        backgroundColor: "#afafaf"
+        backgroundColor: "#afafaf",
       });
     }
   };
@@ -83,11 +86,7 @@ const VideoCarousel = () => {
     if (loadedVideos.length >= videoRef.current.length) {
       videoRef.current.forEach((video, i) => {
         if (i === videoId && startPlay) {
-          if (isPlaying) {
-            video.play();
-          } else {
-            video.pause();
-          }
+          isPlaying ? video.play() : video.pause();
         } else {
           video.pause();
           video.currentTime = 0;
@@ -100,21 +99,20 @@ const VideoCarousel = () => {
   const handleVideo = (type, i) => {
     switch (type) {
       case "select":
-        setState(prev => ({...prev, videoId: i, isPlaying: true, isLastVideo: false}));
+        setState(prev => ({ ...prev, videoId: i, isPlaying: true, isLastVideo: false }));
         break;
       case "toggle":
-        setState(prev => ({...prev, isPlaying: !prev.isPlaying}));
+        setState(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
         break;
       case "reset":
         videoRef.current[videoId].currentTime = 0;
-        setState(prev => ({...prev, videoId: 0, isLastVideo: false, isPlaying: true}));
+        setState(prev => ({ ...prev, videoId: 0, isLastVideo: false, isPlaying: true }));
         break;
       case "end":
         if (i === hightlightsSlides.length - 1) {
-          setState(prev => ({...prev, isLastVideo: true, isPlaying: false}));
-          resetProgressBar(i);  // 使用统一的 resetProgressBar 处理
+          setState(prev => ({ ...prev, isLastVideo: true, isPlaying: false }));
         } else {
-          setState(prev => ({...prev, videoId: i + 1}));
+          setState(prev => ({ ...prev, videoId: i + 1 }));
         }
         break;
     }
