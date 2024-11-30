@@ -72,7 +72,7 @@ const VideoCarousel = () => {
     if (progressRef.current[index] && progressBarRef.current[index]) {
       gsap.to(progressBarRef.current[index], {
         width: "12px",
-        duration: 1,
+        duration: 2,
         ease: "power2.out"
       });
       gsap.to(progressRef.current[index], {
