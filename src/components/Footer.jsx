@@ -27,7 +27,7 @@ const Footer = () => {
             {footerLinks.map((link,i) => (
               <p key={link} className='text-gray text-xs'>
                 {link}
-                {i !== footerLinks.length - 1 && '\u00A0 | \u00A0'}
+                {i !== footerLinks.length - 1 && <span className='mx-1'>|</span>}
               </p>
             ))}
           </div>
