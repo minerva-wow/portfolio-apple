@@ -34,12 +34,12 @@ const Model = () => {
 
   useEffect(() => {
     if (size === 'large') {
-      setSmallRotation(largeRotation);//当前是large的时候同步small的rotation
+      setSmallRotation(largeRotation);
       animateWithGsapTimeline(tl, small, largeRotation, '#view1', '#view2', {
         transform: 'translateX(-100%)', duration: 2
       })}
     if (size === 'small') {
-      setLargeRotation(smallRotation);//当前是small的时候同步large的rotation
+      setLargeRotation(smallRotation);
       animateWithGsapTimeline(tl, large, smallRotation, '#view1', '#view2', {
         transform: 'translateX(0)', duration: 2
       })}
